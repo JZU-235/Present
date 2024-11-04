@@ -47,7 +47,7 @@
       color: #555;
       text-align: center;
     }
-    #frame4future {
+    #Teplator {
       position: fixed;
       bottom: 25px;
       left: 50%;
@@ -70,7 +70,7 @@
   camera-controls
   environment-image="neutral"
   auto-rotate
-  scale="1 1 1"
+  scale="0.3 0.3 0.3"
   xr-environment
   camera-orbit="45deg 75deg 6m"
   min-camera-orbit="auto 0deg 2m"
@@ -81,14 +81,9 @@
   camera-target="auto"></model-viewer>
 
 <!-- Tlačítko pro aktivaci AR -->
-<button id="ar-button" style="display: none;">Zobrazit ve vašem prostoru</button>
+<button id="ar-button" style="display: none;">View in your space</button>
 
-<!-- Informace o licencích -->
-<div id="license-info">
-  Používá <a href="https://github.com/google/model-viewer" target="_blank">Model Viewer</a> (Apache 2.0) a <a href="https://threejs.org/" target="_blank">three.js</a> (MIT).
-</div>
-
-<div id="frame4future">www.teplator.cz</div>
+<div id="Teplator">www.teplator.com</div>
 
 <script>
   const modelViewer = document.querySelector('#model');
@@ -97,9 +92,9 @@
 
   modelViewer.addEventListener('ar-status', (event) => {
     if (event.detail.status === 'session-started') {
-      console.log('AR sezení spuštěno');
+      console.log('AR loading...');
     } else if (event.detail.status === 'session-ended') {
-      console.log('AR sezení ukončeno');
+      console.log('AR done');
     }
   });
 
@@ -111,8 +106,8 @@
   });
 
   modelViewer.addEventListener('error', (event) => {
-    console.error('Chyba při načítání modelu:', event);
-    loadingMessage.innerHTML = 'Chyba při načítání modelu. Zkuste to znovu.';
+    console.error('error:', event);
+    loadingMessage.innerHTML = 'error. Try again.';
   });
 
   arButton.addEventListener('click', () => {
@@ -120,7 +115,7 @@
       try {
         modelViewer.activateAR();
       } catch (error) {
-        console.error('Chyba při spuštění AR:', error);
+        console.error('Error:', error);
         alert('Nepodařilo se spustit AR. Zkuste to znovu.');
       }
     } else {
