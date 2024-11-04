@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive AR with modelm</title>
+  <title>Interactive AR with model</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
   <style>
     body {
@@ -70,7 +70,7 @@
   camera-controls
   environment-image="neutral"
   auto-rotate
-  scale="0.01 0.01 0.01"
+  scale="1 1 1"  <!-- Upraveno z 0.01 na 1 pro zlepšení viditelnosti -->
   xr-environment
   camera-orbit="45deg 75deg 3m"
   min-camera-orbit="auto 0deg 2m"
@@ -90,32 +90,38 @@
   const arButton = document.querySelector('#ar-button');
   const loadingMessage = document.querySelector('#loading-message');
 
-  modelViewer.addEventListener('ar-status', (event) => {
-    if (event.detail.status === 'session-started') {
-      console.log('AR loading...');
-    } else if (event.detail.status === 'session-ended') {
-      console.log('AR done');
-    }
-  });
-
+  // Ověření, zda zařízení podporuje AR
   modelViewer.addEventListener('load', () => {
     loadingMessage.style.display = 'none';
     if (modelViewer.canActivateAR) {
       arButton.style.display = 'block';
+    } else {
+      console.log('AR není dostupná na tomto zařízení.');
     }
   });
 
-  modelViewer.addEventListener('error', (event) => {
-    console.error('error:', event);
-    loadingMessage.innerHTML = 'error. Try again.';
+  // Kontrola, zda AR session začíná a končí správně
+  modelViewer.addEventListener('ar-status', (event) => {
+    if (event.detail.status === 'session-started') {
+      console.log('AR session spuštěna');
+    } else if (event.detail.status === 'session-ended') {
+      console.log('AR session ukončena');
+    }
   });
 
+  // Zobrazení chybové zprávy při selhání načítání modelu
+  modelViewer.addEventListener('error', (event) => {
+    console.error('Chyba při načítání modelu:', event);
+    loadingMessage.innerHTML = 'Chyba při načítání modelu. Zkuste to znovu.';
+  });
+
+  // Ověření, zda je AR tlačítko aktivní a AR se může spustit
   arButton.addEventListener('click', () => {
     if (modelViewer.canActivateAR) {
       try {
         modelViewer.activateAR();
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Chyba při spuštění AR:', error);
         alert('Nepodařilo se spustit AR. Zkuste to znovu.');
       }
     } else {
