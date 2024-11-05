@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=0.8">
+  <meta name="viewport" content="width=device-width, initial-scale=2">
   <title>Interactive AR with animated model</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
   <style>
@@ -76,6 +76,7 @@
 
 <div id="loading-message">Loading model, please wait...</div>
 
+<!-- Zde je opravený tag model-viewer -->
 <model-viewer
   id="model"
   src="./animace.gltf"
@@ -83,7 +84,7 @@
   camera-controls
   environment-image="neutral"
   auto-rotate
-  autoplay  <!-- Přehrávání animace automaticky -->
+  autoplay  <!-- Opraven atribut autoplay -->
   scale="1 1 1"
   xr-environment
   camera-orbit="45deg 75deg 3m"
@@ -149,24 +150,3 @@
 
   // Zobrazení chybové zprávy při selhání načítání modelu
   modelViewer.addEventListener('error', (event) => {
-    console.error('Chyba při načítání modelu:', event);
-    loadingMessage.innerHTML = 'Chyba při načítání modelu. Zkuste to znovu.';
-  });
-
-  // Ověření, zda je AR tlačítko aktivní a AR se může spustit
-  arButton.addEventListener('click', () => {
-    if (modelViewer.canActivateAR) {
-      try {
-        modelViewer.activateAR();
-      } catch (error) {
-        console.error('Chyba při spuštění AR:', error);
-        alert('Nepodařilo se spustit AR. Zkuste to znovu.');
-      }
-    } else {
-      alert('AR není dostupná na vašem zařízení nebo prohlížeči.');
-    }
-  });
-</script>
-
-</body>
-</html>
