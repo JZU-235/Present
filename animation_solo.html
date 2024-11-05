@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive AR with animated model</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
+  <style>
+    body {
+      margin: 0;
+      background-color: #E5E5E5;
+    }
+    model-viewer {
+      width: 100%;
+      height: 80vh;
+    }
+    #ar-button {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 20px 40px;
+      font-size: 24px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #ar-button:hover {
+      background-color: #0056B3;
+    }
+    #loading-message {
+      text-align: center;
+      font-size: 18px;
+      padding: 20px;
+      color: #555;
+    }
+    #license-info {
+      position: fixed;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: #555;
+      text-align: center;
+    }
+    #Teplator {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: #333;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
+    #animation-controls {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading-message">Loading model, please wait...</div>
+
+<!-- Opravený tag model-viewer -->
+<model-viewer
+  id="model"
+  src="./animace_solo.gltf"
+  ar
+  ar-modes="webxr scene-viewer quick-look"
+  camera-controls
+  environment-image="neutral"
+  auto-rotate
+  autoplay
+  scale="1 1 1"
+  xr-environment
+  camera-orbit="45deg 75deg 3m"
+  min-camera-orbit="auto 0deg 2m"
+  max-camera-orbit="auto 180deg 4m"
+  field-of-view="90deg"
+  interaction-prompt="auto"
+  interaction-prompt-style="wiggle"
+  camera-target="auto">
+</model-viewer>
+
+<!-- Tlačítko pro aktivaci AR -->
+<button id="ar-button" style="display: none;">View in your space</button>
+
+<div id="Teplator">www.teplator.com</div>
+
+<!-- Ovládací prvky animace -->
+<div id="animation-controls">
+  <button id="play-button">Play</button>
+  <button id="pause-button">Pause</button>
+  <button id="stop-button">Stop</button>
+</div>
+
+<script>
+  const modelViewer = document.querySelector('#model');
+  const arButton = document.querySelector('#ar-button');
+  const loadingMessage = document.querySelector('#loading-message');
+  const playButton = document.querySelector('#play-button');
+  const pauseButton = document.querySelector('#pause-button');
+  const stopButton = document.querySelector('#stop-button');
+
+  // Ověření, zda zařízení podporuje AR
+  modelViewer.addEventListener('load', () => {
+    loadingMessage.style.display = 'none';
+    if (modelViewer.canActivateAR) {
+      arButton.style.display = 'block';
+    } else {
+      console.log('AR není dostupná na tomto zařízení.');
+    }
+  });
+
+  // Kontrola, zda AR session začíná a končí správně
+  modelViewer.addEventListener('ar-status', (event) => {
+    if (event.detail.status === 'session-started') {
+      console.log('AR session spuštěna');
+    } else if (event.detail.status === 'session-ended') {
+      console.log('AR session ukončena');
+    }
+  });
+
+  // Ovládání animace
+  playButton.addEventListener('click', () => {
+    modelViewer.play();
+  });
+
+  pauseButton.addEventListener('click', () => {
+    modelViewer.pause();
+  });
+
+  stopButton.addEventListener('click', () => {
+    modelViewer.currentTime = 0;
+    modelViewer.pause();
+  });
+
+  // Zobrazení chybové zprávy při selhání načítání modelu
+  modelViewer.addEventListener('error', (event) => {
+    console.error('Chyba při načítání modelu:', event);
+    loadingMessage.innerHTML = 'Chyba při načítání modelu. Zkuste to znovu.';
+  });
+
+  // Ověření, zda je AR tlačítko aktivní a AR se může spustit
+  arButton.addEventListener('click', () => {
+    if (modelViewer.canActivateAR) {
+      try {
+        modelViewer.activateAR();
+      } catch (error) {
+        console.error('Chyba při spuštění AR:', error);
+        alert('Nepodařilo se spustit AR. Zkuste to znovu.');
+      }
+    } else {
+      alert('AR není dostupná na vašem zařízení nebo prohlížeči.');
+    }
+  });
+</script>
+
+</body>
+</html>
