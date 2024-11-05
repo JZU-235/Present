@@ -57,6 +57,16 @@
       text-align: center;
       font-family: Arial, sans-serif;
     }
+    #version {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: #333;
+      text-align: center;
+      font-family: Arial, sans-serif;
+    }
     #animation-controls {
       position: fixed;
       bottom: 100px;
@@ -102,12 +112,17 @@
 
 <div id="Teplator">www.teplator.com</div>
 
+
+
 <!-- Ovládací prvky animace -->
 <div id="animation-controls">
   <button id="play-button">Play</button>
   <button id="pause-button">Pause</button>
   <button id="stop-button">Stop</button>
 </div>
+
+  <!-- Zde přidáme řádek s verzí -->
+<div id="version">Version 1.0</div>
 
 <script>
   const modelViewer = document.querySelector('#model');
