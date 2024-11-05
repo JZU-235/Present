@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=2">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive AR with animated model</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
   <style>
@@ -79,12 +79,13 @@
 <!-- Opravený tag model-viewer -->
 <model-viewer
   id="model"
-  src="./animace.gltf"  <!-- Ujistěte se, že cesta je správná -->
-  ar ar-modes="webxr scene-viewer quick-look"
+  src="./animace.gltf"
+  ar
+  ar-modes="webxr scene-viewer quick-look"
   camera-controls
   environment-image="neutral"
   auto-rotate
-  autoplay  <!-- Autoplay pro animace -->
+  autoplay
   scale="1 1 1"
   xr-environment
   camera-orbit="45deg 75deg 3m"
