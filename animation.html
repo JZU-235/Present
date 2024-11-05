@@ -76,15 +76,15 @@
 
 <div id="loading-message">Loading model, please wait...</div>
 
-<!-- Zde je opravený tag model-viewer -->
+<!-- Opravený tag model-viewer -->
 <model-viewer
   id="model"
-  src="./animace.gltf"
+  src="./animace.gltf"  <!-- Ujistěte se, že cesta je správná -->
   ar ar-modes="webxr scene-viewer quick-look"
   camera-controls
   environment-image="neutral"
   auto-rotate
-  autoplay  <!-- Opraven atribut autoplay -->
+  autoplay  <!-- Autoplay pro animace -->
   scale="1 1 1"
   xr-environment
   camera-orbit="45deg 75deg 3m"
@@ -93,7 +93,8 @@
   field-of-view="90deg"
   interaction-prompt="auto"
   interaction-prompt-style="wiggle"
-  camera-target="auto"></model-viewer>
+  camera-target="auto">
+</model-viewer>
 
 <!-- Tlačítko pro aktivaci AR -->
 <button id="ar-button" style="display: none;">View in your space</button>
