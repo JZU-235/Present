@@ -150,3 +150,24 @@
 
   // Zobrazení chybové zprávy při selhání načítání modelu
   modelViewer.addEventListener('error', (event) => {
+    console.error('Chyba při načítání modelu:', event);
+    loadingMessage.innerHTML = 'Chyba při načítání modelu. Zkuste to znovu.';
+  });
+
+  // Ověření, zda je AR tlačítko aktivní a AR se může spustit
+  arButton.addEventListener('click', () => {
+    if (modelViewer.canActivateAR) {
+      try {
+        modelViewer.activateAR();
+      } catch (error) {
+        console.error('Chyba při spuštění AR:', error);
+        alert('Nepodařilo se spustit AR. Zkuste to znovu.');
+      }
+    } else {
+      alert('AR není dostupná na vašem zařízení nebo prohlížeči.');
+    }
+  });
+</script>
+
+</body>
+</html>
